@@ -1,0 +1,14 @@
+#### o.s.b.d.LoggingFailureAnalysisReporter
+상황 : Spring Boot 실행 후 발생한 에러
+원인 : DataBase 설정 관련 문제(DB설정 되어 있지 않을 경우)
+해결 : DB의존성 추가, 프로파일 활성화 확인, 
+Description:
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+Reason: Failed to determine a suitable driver class
+
+*** MySql
+#### ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+원인 : root의 비번이 설정이 되지 않음 또는 비밀번호 틀림
+해결 : mysql>use mysql
+      mysql>update user set password=password('비밀번호') where user='사용자';
+      mysql>flush privileges; // 변경사항 적용
