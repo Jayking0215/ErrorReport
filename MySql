@@ -12,3 +12,15 @@
       컨테이너 실행 docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root --name mysql_container mysql
       docker-compose.yml생성
       설정환경으로 MySQL컨테이너 생성 및 실행 docker-compose up -d
+
+
+#### ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock'
+원인 : 1. mysql.sock 파일이 경로 및 심볼릭링크 정확하지 않아서 발생하는 오류
+      2. mysql.sock 파일에 대한 권한 문제 오류
+      3. my.cnf 손상이나 mysql 실행 도중 손상되서 mysql.sock 문제가 발생 한 이유
+해결 : 1. mysql socket위치 찾기  $ mysql_config --socket
+        my.cnf 설정된 socket 경로를 심볼릭링크 설정  $ sudo ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+        
+      2. 디렉토리에 권한 변경  $ sudo chmod -R 777 /var/lib/mysql
+        파일 소유자/소유자 그룹 변경  $ sudo chown <사용자>:<사용자그룹> <파일>
+      3. data 백업 한 후에 재 설치
